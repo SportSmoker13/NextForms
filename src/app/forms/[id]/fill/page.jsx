@@ -5,7 +5,8 @@ import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import FormFiller from '@/components/forms/form-filler';
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(data) {
+  const params = await data.params;
   const form = await prisma.form.findUnique({
     where: { id: params.id },
     select: { title: true }
@@ -17,7 +18,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function FillFormPage({ params }) {
+export default async function FillFormPage(data) {
+  const params = await data.params;
   const session = await getServerSession(authOptions);
   
   const form = await prisma.form.findUnique({

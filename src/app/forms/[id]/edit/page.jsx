@@ -10,7 +10,8 @@ export const metadata = {
   description: 'Edit your existing form'
 };
 
-export default async function EditFormPage({ params }) {
+export default async function EditFormPage(data) {
+  const params = await data.params;
   const session = await getServerSession(authOptions);
   
   if (!session) {

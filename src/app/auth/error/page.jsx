@@ -23,7 +23,7 @@ const AuthErrorPageContent = () => {
   const errorMessage = errorMessages[error] || errorMessages.default;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 w-full">
       <div className="max-w-md w-full space-y-6 text-center">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Authentication Error</h1>

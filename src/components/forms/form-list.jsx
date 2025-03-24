@@ -7,12 +7,13 @@ import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import {
   Edit,
   FileText,
-  MoreVertical,
   Plus,
   Search,
   BarChart,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Trash2,
+  EyeIcon
 } from 'lucide-react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
@@ -211,12 +212,21 @@ export default function FormList({ initialForms }) {
                           </Link>
                         </Button>
                         <Button
+                          variant="ghost"
+                          size="icon"
+                          asChild
+                        >
+                          <Link href={`/forms/${form.id}`}>
+                            <EyeIcon className="h-4 w-4 text-muted-foreground" />
+                          </Link>
+                        </Button>
+                        <Button
                           className='cursor-pointer'
                           variant="ghost"
                           size="icon"
                           onClick={() => setFormToDelete(form)}
                         >
-                          <MoreVertical className="h-4 w-4 text-muted-foreground" />
+                          <Trash2 className="h-4 w-4 text-muted-foreground" />
                         </Button>
                       </div>
                     </div>

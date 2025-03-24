@@ -9,7 +9,8 @@ import { Badge } from '../../../components/ui/badge';
 import { Pencil, Eye, ClipboardList, Share2, ToggleRight } from 'lucide-react';
 import { Input } from '../../../components/ui/input';
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(data) {
+  const params = await data.params;
   const form = await prisma.form.findUnique({
     where: { id: params.id },
     select: { title: true, description: true }
@@ -21,7 +22,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function FormViewPage({ params }) {
+export default async function FormViewPage(data) {
+  const params = await data.params;
   const session = await getServerSession(authOptions);
   if (!session) redirect('/api/auth/signin');
 
@@ -44,10 +46,12 @@ export default async function FormViewPage({ params }) {
       where: { id: params.id },
       data: { published: status }
     });
+    redirect(`forms/${params.id}`)
   }
 
   return (
     <div className="container py-8 px-4 space-y-8">
+      {/* Form Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold">{form.title}</h1>
@@ -78,15 +82,16 @@ export default async function FormViewPage({ params }) {
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Form Preview */}
         <div className="lg:col-span-2">
           <div className="sticky top-8">
-            <h2 className="text-xl font-semibold mb-4">Form Preview</h2>
+            <h2 className="text-xl font-semibold mb-2 px-8">Form Preview</h2>
             <FormFiller 
               form={form} 
               previewMode 
-              className="pointer-events-none opacity-50"
+              className="pointer-events-none opacity-75"
             />
             {!form.published && (
               <div className="mt-4 text-center text-muted-foreground">
@@ -129,7 +134,7 @@ export default async function FormViewPage({ params }) {
                 value={`${process.env.NEXTAUTH_URL}/forms/${form.id}/fill`}
                 readOnly
               />
-              <Button
+              {/* <Button
                 variant="secondary"
                 className='cursor-pointer'
                 onClick={() => navigator.clipboard.writeText(
@@ -137,7 +142,7 @@ export default async function FormViewPage({ params }) {
                 )}
               >
                 <Share2 className="h-4 w-4" />
-              </Button>
+              </Button> */}
             </div>
             {!form.published && (
               <p className="text-sm text-muted-foreground">

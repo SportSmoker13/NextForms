@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
           >
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main className="flex grow flex-1 container bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">{children}</main>
+              <main className="flex grow flex-1 container bg-gradient-to-br from-[#f7fbff] to-[#e9ecef]">{children}</main>
             </div>
             <Toaster />
           </ThemeProvider>

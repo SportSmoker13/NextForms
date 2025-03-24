@@ -11,6 +11,11 @@ datasource db {
 enum QuestionType {
   TEXT
   DROPDOWN
+  CHECKBOX
+  RADIO
+  DATE
+  FILE
+  RATING
 }
 
 enum Role {
@@ -55,6 +60,7 @@ model Question {
   order       Int
   type        QuestionType
   options     Option[]     @relation("QuestionOptions")
+  scale       Int?         // For RATING type (3, 5, 7, 10)
   form        Form         @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId      String
   answers     Answer[]
