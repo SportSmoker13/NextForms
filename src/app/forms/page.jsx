@@ -20,7 +20,7 @@ export default async function FormsPage({ searchParams }) {
   // Get search parameter
   const search = params.search || '';
   
-  // Pagination parameters
+  // Pagination parameterss
   const page = Number(params.page) || 1;
   const pageSize = Number(params.pageSize) || Number(process.env.ITEMS_PER_PAGE);
 
