@@ -6,19 +6,19 @@ import FormBuilder from '@/components/forms/form-builder';
 
 export const metadata = {
   title: 'Create Form | Form Builder',
-  description: 'Create a new custom form'
+  description: 'Create a new custom form',
 };
 
 export default async function CreateFormPage() {
   const session = await getServerSession(authOptions);
-  
+
   if (!session) {
     redirect('/api/auth/signin');
   }
 
   return (
-    <div className="container py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8">Create New Form</h1>
+    <div className="container py-4 px-4">
+      <h1 className="text-3xl font-bold mb-4 mx-4">Create New Form</h1>
       <FormBuilder />
     </div>
   );

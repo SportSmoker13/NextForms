@@ -29,11 +29,9 @@ const AuthErrorPageContent = () => {
           <h1 className="text-3xl font-bold">Authentication Error</h1>
           <p className="text-muted-foreground">{errorMessage}</p>
         </div>
-        
-        <Button className='cursor-pointer' asChild>
-          <Link href="/auth/signin">
-            Return to Sign In
-          </Link>
+
+        <Button className="cursor-pointer" asChild>
+          <Link href="/auth/signin">Return to Sign In</Link>
         </Button>
       </div>
     </div>

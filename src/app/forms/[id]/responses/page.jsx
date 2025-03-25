@@ -1,8 +1,10 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import ResponseList from "../../../../components/forms/response-list"
+import React, { useMemo } from 'react';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import ResponseList from '../../../../components/forms/response-list';
 
-export default async function FormResponsesPage(data) {
+// Enhanced Response List Component
+export default async function FormResponsesDashboard(data) {
   const params = await data.params;
   if (!params?.id) {
     notFound(); // Handle case where ID is missing
@@ -19,12 +21,12 @@ export default async function FormResponsesPage(data) {
       responses: {
         include: {
           answers: { include: { question: true } },
-          user: { select: { name: true, email: true } }
+          user: { select: { name: true, email: true } },
         },
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
       },
-      questions: true
-    }
+      questions: true,
+    },
   });
 
   if (!form || form.creatorId !== session.user.id) {
@@ -32,7 +34,7 @@ export default async function FormResponsesPage(data) {
   }
 
   return (
-    <div className="container py-8 px-4">
+    <div className="container space-y-2">
       <ResponseList form={form} responses={form.responses} />
     </div>
   );

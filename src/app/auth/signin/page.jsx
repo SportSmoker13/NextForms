@@ -11,15 +11,15 @@ import { Label } from '../../../components/ui/label';
 const SignInForm = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    
+
     await signIn('credentials', {
       email: formData.get('email'),
       password: formData.get('password'),
-      callbackUrl: '/forms'
+      callbackUrl: '/forms',
     });
   };
 
@@ -35,7 +35,7 @@ const SignInForm = () => {
 
         {error && (
           <div className="text-red-500 text-center">
-            {error === 'CredentialsSignin' 
+            {error === 'CredentialsSignin'
               ? 'Invalid email or password'
               : 'Authentication error'}
           </div>

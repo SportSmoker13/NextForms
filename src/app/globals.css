@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -64,9 +64,9 @@ body {
       transparent,
       rgb(var(--background-end-rgb))
     rgb(var(--background-start-rgb)) */
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none; /* For Internet Explorer */
-    overflow-y: auto; /* Enables scrolling */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer */
+  overflow-y: auto; /* Enables scrolling */
 }
 
 :root {
@@ -150,7 +150,7 @@ body {
   }
 }
 .container {
-  max-width:  100% !important;
+  max-width: 100% !important;
   width: 100%;
 }
 

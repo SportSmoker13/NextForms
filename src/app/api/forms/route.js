@@ -7,12 +7,9 @@ import prisma from '@/lib/prisma';
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' }, 
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get pagination parameters from URL query
@@ -37,15 +34,15 @@ export async function GET(request) {
         where: { creatorId: session.user.id },
         include: {
           _count: { select: { responses: true } },
-          questions: { select: { id: true } }
+          questions: { select: { id: true } },
         },
         orderBy: { createdAt: 'desc' },
         skip,
         take: pageSize,
       }),
       prisma.form.count({
-        where: { creatorId: session.user.id }
-      })
+        where: { creatorId: session.user.id },
+      }),
     ]);
 
     // Calculate total pages
@@ -59,10 +56,9 @@ export async function GET(request) {
         pageSize,
         totalPages,
         hasNextPage: page < totalPages,
-        hasPreviousPage: page > 1
-      }
+        hasPreviousPage: page > 1,
+      },
     });
-    
   } catch (error) {
     console.error('Error fetching forms:', error);
     return NextResponse.json(
@@ -75,22 +71,16 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' }, 
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    
+
     // Basic validation
     if (!body.title || !body.questions?.length) {
-      return NextResponse.json(
-        { error: 'Invalid form data' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid form data' }, { status: 400 });
     }
 
     // Create form with questions in transaction
@@ -99,23 +89,47 @@ export async function POST(request) {
         data: {
           title: body.title,
           description: body.description,
-          creatorId: session.user.id
-        }
+          creatorId: session.user.id,
+        },
       });
 
       await Promise.all(
-        body.questions.map((question, index) => 
-          tx.question.create({
+        body.questions.map(async (question, index) => {
+          // Create question with validation-specific fields
+          const createdQuestion = await tx.question.create({
             data: {
-              ...question,
+              label: question.label,
+              placeholder: question.placeholder,
+              required: question.required,
+              type: question.type,
               order: index,
               formId: form.id,
-              options: question.type === 'DROPDOWN' ? {
-                create: question.options
-              } : undefined
-            }
-          })
-        )
+              // Validation-specific fields
+              scale: question.type === 'RATING' ? question.scale : null,
+              minLength: question.minLength,
+              maxLength: question.maxLength,
+              min: question.min,
+              max: question.max,
+              pattern: question.pattern,
+            },
+          });
+
+          // Handle options for multi-choice questions
+          if (
+            ['DROPDOWN', 'CHECKBOX', 'RADIO'].includes(question.type) &&
+            question.options
+          ) {
+            await tx.option.createMany({
+              data: question.options.map((option) => ({
+                questionId: createdQuestion.id,
+                label: option.label,
+                value: option.value,
+              })),
+            });
+          }
+
+          return createdQuestion;
+        })
       );
 
       return form;

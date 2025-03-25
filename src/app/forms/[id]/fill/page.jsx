@@ -9,27 +9,27 @@ export async function generateMetadata(data) {
   const params = await data.params;
   const form = await prisma.form.findUnique({
     where: { id: params.id },
-    select: { title: true }
+    select: { title: true },
   });
 
   return {
     title: form ? `${form.title} | Form Builder` : 'Form Not Found',
-    description: form?.title ? `Fill out the ${form.title} form` : ''
+    description: form?.title ? `Fill out the ${form.title} form` : '',
   };
 }
 
 export default async function FillFormPage(data) {
   const params = await data.params;
   const session = await getServerSession(authOptions);
-  
+
   const form = await prisma.form.findUnique({
     where: { id: params.id },
     include: {
       questions: {
         include: { options: true },
-        orderBy: { order: 'asc' }
-      }
-    }
+        orderBy: { order: 'asc' },
+      },
+    },
   });
 
   if (!form || (!form.published && form.creatorId !== session?.user?.id)) {
@@ -37,7 +37,7 @@ export default async function FillFormPage(data) {
   }
 
   return (
-    <div className="container py-8 px-4">
+    <div className="container">
       <FormFiller form={form} />
     </div>
   );

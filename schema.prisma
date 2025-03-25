@@ -16,6 +16,8 @@ enum QuestionType {
   DATE
   FILE
   RATING
+  EMAIL
+  NUMBER
 }
 
 enum Role {
@@ -61,6 +63,11 @@ model Question {
   type        QuestionType
   options     Option[]     @relation("QuestionOptions")
   scale       Int?         // For RATING type (3, 5, 7, 10)
+  minLength   Int?         // For TEXT/EMAIL validation
+  maxLength   Int?         // For TEXT/EMAIL validation
+  min         Int?         // For NUMBER validation
+  max         Int?         // For NUMBER validation
+  pattern     String?      // For pattern validation
   form        Form         @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId      String
   answers     Answer[]

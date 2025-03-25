@@ -7,7 +7,7 @@ import { compare } from 'bcrypt';
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: 'jwt'
+    strategy: 'jwt',
   },
   pages: {
     signIn: '/auth/signin',
@@ -23,7 +23,7 @@ export const authOptions = {
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' }
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -32,8 +32,8 @@ export const authOptions = {
 
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email
-          }
+            email: credentials.email,
+          },
         });
 
         if (!user || !user.password) {
@@ -52,10 +52,10 @@ export const authOptions = {
         return {
           id: user.id,
           email: user.email,
-          name: user.name
+          name: user.name,
         };
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async session({ session, token }) {
@@ -71,6 +71,6 @@ export const authOptions = {
         token.id = user.id;
       }
       return token;
-    }
-  }
+    },
+  },
 };

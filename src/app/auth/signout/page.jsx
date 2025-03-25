@@ -10,7 +10,7 @@ export default function SignOutPage() {
 
   useEffect(() => {
     signOut({
-      callbackUrl: '/auth/signin'
+      callbackUrl: '/auth/signin',
     });
   }, [router]);
 

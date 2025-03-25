@@ -13,7 +13,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Trash2,
-  EyeIcon
+  EyeIcon,
 } from 'lucide-react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
@@ -41,17 +41,19 @@ export default function FormList({ initialForms }) {
   const [forms, setForms] = useState(initialForms.data || []);
   const [totalForms, setTotalForms] = useState(initialForms.total || 0);
   const [currentPage, setCurrentPage] = useState(initialForms.page || 1);
-  const [itemsPerPage] = useState(initialForms.pageSize || parseInt(process.env.ITEMS_PER_PAGE));
+  const [itemsPerPage] = useState(
+    initialForms.pageSize || parseInt(process.env.ITEMS_PER_PAGE)
+  );
   const [searchQuery, setSearchQuery] = useState(initialForms.search || '');
 
   const totalPages = Math.ceil(totalForms / itemsPerPage);
   useEffect(() => {
-    setForms(initialForms.data)
-  }, [initialForms.data])
-  
+    setForms(initialForms.data);
+  }, [initialForms.data]);
+
   const updateURLParams = (newParams) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     Object.entries(newParams).forEach(([key, value]) => {
       if (value) params.set(key, value);
       else params.delete(key);
@@ -91,11 +93,11 @@ export default function FormList({ initialForms }) {
     setIsDeleting(true);
     try {
       const response = await fetch(`/api/forms/${formToDelete.id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       });
 
       if (!response.ok) throw new Error('Failed to delete form');
-      
+
       // Refresh forms after deletion
       const newResponse = await fetch(
         `/api/forms?page=${currentPage}&pageSize=${itemsPerPage}&search=${encodeURIComponent(searchQuery)}`
@@ -104,7 +106,7 @@ export default function FormList({ initialForms }) {
 
       setForms(data);
       setTotalForms(total);
-      toast.warning("Form was successfully deleted");
+      toast.warning('Form was successfully deleted');
     } catch (error) {
       toast.error(`Error: ${error.message}`);
     } finally {
@@ -119,8 +121,8 @@ export default function FormList({ initialForms }) {
   };
 
   return (
-    <div className='flex justify-between flex-col h-full m-4'>
-      <div className="space-y-6 pb-4">
+    <div className="flex justify-between flex-col h-full m-4">
+      <div className="space-y-2 pb-4">
         <div className="flex items-center justify-between mx-4">
           <h1 className="text-2xl font-semibold">Your Forms</h1>
           <Button
@@ -156,12 +158,17 @@ export default function FormList({ initialForms }) {
 
             {forms.length === 0 ? (
               <div className="py-12 text-center text-muted-foreground">
-                {searchQuery ? "No forms match your search" : "You haven't created any forms yet"}
+                {searchQuery
+                  ? 'No forms match your search'
+                  : "You haven't created any forms yet"}
               </div>
             ) : (
-              <div className=" max-h-[55vh] overflow-y-scroll divide-y">
-                {forms.map((form) => (
-                  <div key={form.id} className="flex items-center p-4 hover:bg-muted/50">
+              <div className="max-h-[61vh] overflow-y-scroll divide-y">
+                {forms.map((form, key) => (
+                  <div
+                    key={key}
+                    className="flex items-center p-4 hover:bg-muted/50"
+                  >
                     <div className="w-6/12">
                       <div className="flex items-center">
                         <FileText className="mr-3 h-5 w-5 text-primary" />
@@ -174,7 +181,10 @@ export default function FormList({ initialForms }) {
                       </div>
                     </div>
                     <div className="w-2/12 text-center">
-                      <Badge variant="secondary" className="bg-[#66b3ff] text-[#00264d]">
+                      <Badge
+                        variant="secondary"
+                        className="bg-[#66b3ff] text-[#00264d]"
+                      >
                         {form._count?.responses || 0}
                       </Badge>
                     </div>
@@ -182,8 +192,9 @@ export default function FormList({ initialForms }) {
                       <Badge
                         variant={form.published ? 'default' : 'secondary'}
                         className={
-                          form.published ? 'bg-green-100 text-green-800' :
-                            'bg-amber-100 text-amber-800'
+                          form.published
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-amber-100 text-amber-800'
                         }
                       >
                         {form.published ? 'Active' : 'Draft'}
@@ -195,33 +206,25 @@ export default function FormList({ initialForms }) {
                     <div className="w-2/12 text-right">
                       <div className="flex justify-end gap-2">
                         <Button
-                          className='cursor-pointer'
+                          className="cursor-pointer"
                           variant="ghost"
                           size="icon"
                           onClick={() => router.push(`/forms/${form.id}/edit`)}
                         >
                           <Edit className="h-4 w-4 text-muted-foreground" />
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                        >
+                        <Button variant="ghost" size="icon" asChild>
                           <Link href={`/forms/${form.id}/responses`}>
                             <BarChart className="h-4 w-4 text-muted-foreground" />
                           </Link>
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          asChild
-                        >
+                        <Button variant="ghost" size="icon" asChild>
                           <Link href={`/forms/${form.id}`}>
                             <EyeIcon className="h-4 w-4 text-muted-foreground" />
                           </Link>
                         </Button>
                         <Button
-                          className='cursor-pointer'
+                          className="cursor-pointer"
                           variant="ghost"
                           size="icon"
                           onClick={() => setFormToDelete(form)}
@@ -237,16 +240,22 @@ export default function FormList({ initialForms }) {
           </CardContent>
         </Card>
 
-        <AlertDialog open={!!formToDelete} onOpenChange={() => !isDeleting && setFormToDelete(null)}>
+        <AlertDialog
+          open={!!formToDelete}
+          onOpenChange={() => !isDeleting && setFormToDelete(null)}
+        >
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete "{formToDelete?.title}"? This action cannot be undone.
+                Are you sure you want to delete "{formToDelete?.title}"? This
+                action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+              <AlertDialogCancel disabled={isDeleting}>
+                Cancel
+              </AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDelete}
                 disabled={isDeleting}
@@ -264,33 +273,43 @@ export default function FormList({ initialForms }) {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
             Showing{' '}
-            <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to{' '}
-            <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalForms)}</span> of{' '}
-            <span className="font-medium">{totalForms}</span> results
+            <span className="font-medium">
+              {(currentPage - 1) * itemsPerPage + 1}
+            </span>{' '}
+            to{' '}
+            <span className="font-medium">
+              {Math.min(currentPage * itemsPerPage, totalForms)}
+            </span>{' '}
+            of <span className="font-medium">{totalForms}</span> results
           </div>
           <div className="flex items-center">
             <nav className="isolate inline-flex -space-x-px gap-2">
               <Button
                 variant="outline"
                 size="sm"
-                className={`rounded-l-md px-2 ${currentPage === 1 ? 'cursor-not-allowed' : "cursor-pointer"}`}
+                className={`rounded-l-md px-2 ${currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? 'solid' : 'outline'}
-                  size="sm"
-                  className={`px-4 ${page > 1 && page < totalPages ? 'hidden md:inline-flex' : ''} ${currentPage === page ? 'bg-[#003366] text-white hover:bg-[#00264d]' : ''
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page, key) => (
+                  <Button
+                    key={key}
+                    variant={currentPage === page ? 'solid' : 'outline'}
+                    size="sm"
+                    className={`px-4 ${page > 1 && page < totalPages ? 'hidden md:inline-flex' : ''} ${
+                      currentPage === page
+                        ? 'bg-[#003366] text-white hover:bg-[#00264d]'
+                        : ''
                     }`}
-                  onClick={() => handlePageChange(page)}
-                >
-                  {page}
-                </Button>
-              ))}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </Button>
+                )
+              )}
               <Button
                 variant="outline"
                 size="sm"

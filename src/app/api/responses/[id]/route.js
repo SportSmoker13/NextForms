@@ -8,38 +8,32 @@ export async function GET(request, { params }) {
   try {
     const session = await getServerSession(authOptions);
     const { id } = params;
-    
+
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' }, 
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const response = await prisma.response.findUnique({
       where: { id },
       include: {
         answers: {
-          include: { question: true }
+          include: { question: true },
         },
         form: {
-          select: { creatorId: true }
-        }
-      }
+          select: { creatorId: true },
+        },
+      },
     });
 
     if (!response) {
       return NextResponse.json(
-        { error: 'Response not found' }, 
+        { error: 'Response not found' },
         { status: 404 }
       );
     }
 
     if (response.form.creatorId !== session.user.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' }, 
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
     return NextResponse.json(response);
