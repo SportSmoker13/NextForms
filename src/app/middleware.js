@@ -3,9 +3,8 @@ import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 
 export async function middleware(req) {
-  const session = await getToken({ req, secret: process.env.SECRET });
+  const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
-
   // Protected routes
   const protectedRoutes = ['/dashboard', '/forms', '/responses'];
 
