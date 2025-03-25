@@ -723,10 +723,10 @@ export default function FormFiller({ form, previewMode, className }) {
       </motion.div>
 
       {/* Form Content with Enhanced Styling */}
-      <div className="flex-grow overflow-auto py-8 px-4">
+      <div className="flex flex-grow overflow-auto py-8 px-4">
         <Card
           className={cn(
-            'max-w-4xl mx-auto rounded-xl shadow-lg transition-all duration-300 ease-in-out py-4',
+            'flex-grow max-w-4xl mx-auto rounded-xl shadow-lg transition-all duration-300 ease-in-out py-4',
             previewMode
               ? 'border-yellow-100 bg-yellow-50/50'
               : 'border-gray-100 bg-white'
@@ -735,70 +735,71 @@ export default function FormFiller({ form, previewMode, className }) {
           <Form {...formMethods}>
             <form
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              className="space-y-1"
+              className="flex flex-col justify-between h-full space-y-1"
             >
-              <CardContent className="space-y-6 pt-2">
-                <AnimatePresence>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="space-y-6"
-                  >
-                    {form.questions.map((question, index) => (
-                      <motion.div
-                        key={question.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <FormField
-                          control={formMethods.control}
-                          name={`question_${question.id}`}
-                          render={({ field }) => (
-                            <FormItem className="space-y-3">
-                              <div className="flex items-center justify-between">
-                                <FormLabel className="flex items-center text-base">
-                                  <span className="mr-2 text-muted-foreground">
-                                    {index + 1}.{' '}
-                                  </span>
-                                  {question.label}
-                                  {question.required && (
-                                    <span className="text-destructive ml-1">
-                                      *
+              <div>
+                <CardContent className="space-y-6 pt-2">
+                  <AnimatePresence>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="space-y-6"
+                    >
+                      {form.questions.map((question, index) => (
+                        <motion.div
+                          key={question.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                        >
+                          <FormField
+                            control={formMethods.control}
+                            name={`question_${question.id}`}
+                            render={({ field }) => (
+                              <FormItem className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                  <FormLabel className="flex items-center text-base">
+                                    <span className="mr-2 text-muted-foreground">
+                                      {index + 1}.{' '}
+                                    </span>
+                                    {question.label}
+                                    {question.required && (
+                                      <span className="text-destructive ml-1">
+                                        *
+                                      </span>
+                                    )}
+                                    {question.description &&
+                                      renderTooltip(question.description)}
+                                  </FormLabel>
+                                  {!question.required && (
+                                    <span className="text-xs text-muted-foreground">
+                                      Optional
                                     </span>
                                   )}
-                                  {question.description &&
-                                    renderTooltip(question.description)}
-                                </FormLabel>
-                                {!question.required && (
-                                  <span className="text-xs text-muted-foreground">
-                                    Optional
-                                  </span>
-                                )}
-                              </div>
+                                </div>
 
-                              {renderFieldByType(question, field)}
+                                {renderFieldByType(question, field)}
 
-                              {question.placeholder &&
-                                question.type !== 'TEXT' && (
-                                  <FormDescription className="text-sm">
-                                    {question.placeholder}
-                                  </FormDescription>
-                                )}
-                              <FormMessage className="text-sm" />
-                            </FormItem>
-                          )}
-                        />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </AnimatePresence>
+                                {question.placeholder &&
+                                  question.type !== 'TEXT' && (
+                                    <FormDescription className="text-sm">
+                                      {question.placeholder}
+                                    </FormDescription>
+                                  )}
+                                <FormMessage className="text-sm" />
+                              </FormItem>
+                            )}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </AnimatePresence>
 
-                <ValidationSummary />
-              </CardContent>
-
-              <CardFooter className="flex justify-between pt-6 border-t">
+                  <ValidationSummary />
+                </CardContent>
+              </div>
+              <CardFooter className="flex justify-between pt-2 border-t">
                 <Button
                   type="button"
                   variant="ghost"
