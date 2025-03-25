@@ -1,17 +1,24 @@
-// middleware.js
-import { getToken } from 'next-auth/jwt';
+import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
-export async function middleware(req) {
-  const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  const { pathname } = req.nextUrl;
-  // Protected routes
-  const protectedRoutes = ['/dashboard', '/forms', '/responses'];
-
-  // Redirect unauthenticated users
-  if (!session && protectedRoutes.some((route) => pathname.startsWith(route))) {
-    return NextResponse.redirect(new URL('/auth/signin', req.url));
+export default withAuth(
+  function middleware(req) {
+    console.log('Middleware running');
+    console.log('Request URL:', req.nextUrl.pathname);
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => {
+        console.log('Authorization check - Token exists:', !!token);
+        return token !== null;
+      },
+    },
+    pages: {
+      signIn: '/auth/signin',
+    },
   }
+);
 
-  return NextResponse.next();
-}
+export const config = {
+  matcher: ['/dashboard', '/forms', '/responses'],
+};
