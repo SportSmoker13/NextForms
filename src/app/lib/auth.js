@@ -4,7 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '../../lib/prisma';
 import { compare } from 'bcryptjs';
-
+console.log('NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET ? 'set' : 'not set');
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
