@@ -208,3 +208,37 @@ export async function GET(request, { params }) {
     );
   }
 }
+
+export async function DELETE(request, data) {
+  const params = await data.params;
+  try {
+    const session = await getServerSession(authOptions);
+    const { id } = params;
+
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Verify form ownership
+    const existingForm = await prisma.form.findUnique({
+      where: { id },
+      select: { creatorId: true },
+    });
+
+    if (!existingForm || existingForm.creatorId !== session.user.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    await prisma.form.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting form:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
