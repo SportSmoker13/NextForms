@@ -1,4 +1,3 @@
-// app/auth/signin/page.jsx
 'use client';
 
 import { Suspense } from 'react';
@@ -7,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Label } from '../../../components/ui/label';
+import { Mail } from 'lucide-react';
 
 const SignInForm = () => {
   const searchParams = useSearchParams();
@@ -24,10 +24,10 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 w-full">
+    <div className="min-h-screen flex items-center justify-center p-4 w-full bg-background text-foreground">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold">Sign In</h1>
+          <h1 className="text-3xl font-bold dark:text-white">Sign In</h1>
           <p className="text-muted-foreground mt-2">
             Access your form builder account
           </p>
@@ -50,6 +50,7 @@ const SignInForm = () => {
               type="email"
               placeholder="user@example.com"
               required
+              className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
           </div>
 
@@ -61,20 +62,24 @@ const SignInForm = () => {
               type="password"
               placeholder="••••••••"
               required
+              className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
           </div>
 
-          <Button type="submit" className="w-full cursor-pointer">
+          <Button
+            type="submit"
+            className="w-full cursor-pointer dark:bg-blue-600 dark:hover:bg-blue-700"
+          >
             Sign In
           </Button>
         </form>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
+            <span className="w-full border-t dark:border-gray-600" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
+            <span className="bg-background px-2 text-muted-foreground dark:bg-background dark:text-gray-400">
               OR CONTINUE WITH
             </span>
           </div>
@@ -83,10 +88,14 @@ const SignInForm = () => {
         <div className="flex gap-4">
           <Button
             variant="outline"
-            className="w-full cursor-pointer"
+            className="w-full cursor-pointer flex items-center justify-center gap-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600"
             onClick={() => signIn('google', { callbackUrl: '/forms' })}
           >
-            Google
+            <Mail
+              className="w-5 h-5"
+              color="#4285F4" // Google's brand blue
+            />
+            <span>Google</span>
           </Button>
         </div>
       </div>
