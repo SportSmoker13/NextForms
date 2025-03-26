@@ -178,13 +178,15 @@ export default function FormBuilder({ formData }) {
             question.type === 'RADIO'
               ? (question.options || []).filter((opt) => opt.label && opt.value)
               : [],
-          validationRules: {
-            minLength: question.validationRules?.minLength,
-            maxLength: question.validationRules?.maxLength,
-            min: question.validationRules?.min,
-            max: question.validationRules?.max,
-            pattern: question.validationRules?.pattern,
-          },
+          validationRules: z
+            .object({
+              minLength: z.number().min(0).optional(),
+              maxLength: z.number().min(1).optional(),
+              min: z.number().optional(),
+              max: z.number().optional(),
+              pattern: z.string().optional(),
+            })
+            .optional(),
           scale: question.type === 'RATING' ? question.scale || 5 : undefined, // Default to 5 if not set
           order: index,
         })),

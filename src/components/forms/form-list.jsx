@@ -499,8 +499,8 @@ export default function FormList({ initialForms }) {
                     >
                       {/* Mobile View */}
                       <div className="sm:hidden space-y-2">
+                        <FileText className="h-20 w-20 text-black dark:text-white" />
                         <div className="flex items-center space-x-3">
-                          <FileText className="h-5 w-5 text-black dark:text-white" />
                           <div>
                             <div className="font-medium text-black dark:text-white">
                               {form.title}
