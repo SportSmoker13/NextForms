@@ -7,15 +7,15 @@ import { FileText, PlusCircle } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="flex flex-col md:flex-row w-full items-center justify-center min-h-screen bg-[#efefef] dark:bg-[#121212] transition-colors duration-300 p-4">
-      <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
+    <div className="flex flex-col md:flex-row w-full items-start justify-center min-h-screen bg-[#f4f7f6] dark:bg-[#1a1a2e] transition-colors duration-300">
+      <div className="w-full md:w-1/2 flex justify-start items-start mb-8 md:mb-0">
         <img
-          src="home3.gif"
+          src="home.svg"
           alt="Form Builder Demonstration"
-          className="max-w-full h-auto md:max-w-md"
+          className="w-full h-full object-cover md:object-contain"
         />
       </div>
-      <div className="w-full md:w-1/2 flex items-center justify-center">
+      <div className="w-full md:w-1/2 h-full flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

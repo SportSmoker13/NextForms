@@ -1,0 +1,334 @@
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+    <defs>
+        <!-- Light Theme Gradients -->
+        <linearGradient id="lightBlueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#4a90e2;stop-opacity:0.7" />
+        </linearGradient>
+        
+        <linearGradient id="lightGreenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:0.7" />
+        </linearGradient>
+
+        <!-- Dark Theme Gradients -->
+        <linearGradient id="darkBlueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#2980b9;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#2980b9;stop-opacity:0.7" />
+        </linearGradient>
+        
+        <linearGradient id="darkGreenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#27ae60;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#27ae60;stop-opacity:0.7" />
+        </linearGradient>
+        
+        <!-- Shadow Filters -->
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+        <feOffset dx="0" dy="3" result="offsetblur"/>
+        <feFlood flood-color="#000000" flood-opacity="0.1"/>
+        <feComposite in2="offsetblur" operator="in"/>
+        <feMerge>
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+        </filter>
+        
+        <filter id="buttonHoverShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+        <feOffset dx="0" dy="4" result="offsetblur"/>
+        <feFlood flood-color="#000000" flood-opacity="0.15"/>
+        <feComposite in2="offsetblur" operator="in"/>
+        <feMerge>
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+        </filter>
+        
+        <!-- Character Face Parts -->
+        <circle id="eye" cx="0" cy="0" r="5" fill="#333"/>
+        <path id="smile" d="M-10,0 Q0,10 10,0" fill="none" stroke="#333" stroke-width="2"/>
+        
+        <!-- Interactive Elements -->
+        <style type="text/css">
+        <![CDATA[
+            .clickable {
+            cursor: pointer;
+            }
+            .clickable:hover {
+            opacity: 0.9;
+            }
+            .radio-option:hover circle {
+            fill: #f1f4f8;
+            }
+            .radio-option.selected circle {
+            fill: #4a90e2;
+            }
+            .submit-button:hover {
+            filter: url(#buttonHoverShadow);
+            transform: translateY(-2px);
+            }
+            .submit-button:active {
+            transform: translateY(1px);
+            }
+            .character {
+            transition: all 0.3s ease;
+            }
+            .character:hover {
+            transform: scale(1.05);
+            }
+            .blink {
+            animation: blink 2s infinite;
+            }
+            @keyframes blink {
+            0%, 45%, 55%, 100% { transform: scaleY(1); }
+            48%, 52% { transform: scaleY(0.1); }
+            }
+        ]]>
+        </style>
+    </defs>
+
+    <style>
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes checkmark { 0% { stroke-dashoffset: 50; } 100% { stroke-dashoffset: 0; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes lookAround {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(3px); }
+        75% { transform: translateX(-3px); }
+        }
+        
+        /* Theme Styles */
+        #lightTheme { display: block; }
+        #darkTheme { display: none; }
+        
+        @media (prefers-color-scheme: dark) {
+        #lightTheme { display: none; }
+        #darkTheme { display: block; }
+        }
+    </style>
+
+    <!-- Light Theme Group -->
+    <g id="lightTheme" height="100%">
+        <rect width="100%" height="100%" fill="#f4f7f6"/>
+        
+        <!-- Background Subtle Grid -->
+        <pattern id="lightGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(200,200,200,0.1)" stroke-width="0.5"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#lightGrid)" opacity="0.6"/>
+    </g>
+
+    <!-- Dark Theme Group -->
+    <g id="darkTheme" height="100%">
+        <rect width="100%" height="100%" fill="#1a1a2e"/>
+        
+        <!-- Background Subtle Grid -->
+        <pattern id="darkGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(100,100,100,0.1)" stroke-width="0.5"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#darkGrid)" opacity="0.6"/>
+    </g>
+
+    <!-- Stylized Person Submitting Form -->
+    <g transform="translate(50 150)" style="animation: float 4s ease-in-out infinite;">
+        <!-- Body -->
+        <rect x="0" y="100" width="120" height="200" fill="#3498db" opacity="0.2" rx="10" ry="10"/>
+        
+        <!-- Head -->
+        <circle cx="60" cy="60" r="50" fill="#3498db" opacity="0.7"/>
+        
+        <!-- Eyes - Looking at the form -->
+        <g class="blink">
+        <circle cx="45" cy="50" r="5" fill="white"/>
+        <circle cx="75" cy="50" r="5" fill="white"/>
+        <circle cx="45" cy="50" r="2" fill="#2c3e50" style="animation: lookAround 5s infinite;"/>
+        <circle cx="75" cy="50" r="2" fill="#2c3e50" style="animation: lookAround 5s infinite 0.2s;"/>
+        </g>
+        
+        <!-- Smile - Shows satisfaction -->
+        <path d="M40 80 Q60 100 80 80" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- Main Device -->
+    <rect x="200" y="100" width="400" height="400" 
+        rx="15" ry="15" 
+        fill="white" 
+        filter="url(#softShadow)"
+        stroke="rgba(0,0,0,0.1)"
+        stroke-width="2"/>
+
+    <!-- Screen Content -->
+    <g transform="translate(230 230)">
+        <!-- Form Title -->
+        <rect x="0" y="0" width="340" height="50" 
+        fill="url(#lightBlueGradient)" 
+        rx="10" ry="10"
+        style="animation: float 3s ease-in-out infinite;"/>
+        <text x="20" y="30" fill="white" font-size="18" font-weight="bold" font-family="Arial, sans-serif">Create Your Survey</text>
+
+        <!-- Question Fields -->
+        <g style="animation: slideIn 0.5s forwards;" opacity="0">
+        <rect x="0" y="70" width="340" height="60" 
+            fill="#f1f4f8" 
+            rx="10" ry="10"/>
+        <foreignObject x="15" y="80" width="310" height="40">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: Arial, sans-serif; font-size: 14px; color: #2c3e50;">
+            <input type="text" placeholder="Enter your question here..." style="width: 100%; height: 100%; border: none; background: transparent; outline: none; padding: 5px; font-size: 14px;"/>
+            </div>
+        </foreignObject>
+        </g>
+
+        <!-- Multiple Choice Options -->
+        <g style="animation: slideIn 0.7s forwards;" opacity="0">
+        <!-- Option 1 -->
+        <g class="radio-option clickable" transform="translate(0 150)">
+            <circle cx="30" cy="10" r="10" fill="white" stroke="#3498db" stroke-width="2"/>
+            <text x="50" y="15" fill="#34495e" font-size="14" font-family="Arial, sans-serif">Red</text>
+        </g>
+        
+        <!-- Option 2 -->
+        <g class="radio-option clickable" transform="translate(0 180)">
+            <circle cx="30" cy="10" r="10" fill="white" stroke="#3498db" stroke-width="2"/>
+            <text x="50" y="15" fill="#34495e" font-size="14" font-family="Arial, sans-serif">Blue</text>
+        </g>
+        
+        <!-- Option 3 -->
+        <g class="radio-option clickable" transform="translate(0 210)">
+            <circle cx="30" cy="10" r="10" fill="white" stroke="#3498db" stroke-width="2"/>
+            <text x="50" y="15" fill="#34495e" font-size="14" font-family="Arial, sans-serif">Green</text>
+        </g>
+        
+        <!-- Add Option Button -->
+        <g class="clickable" transform="translate(0 240)">
+            <circle cx="30" cy="10" r="10" fill="white" stroke="#3498db" stroke-width="2" stroke-dasharray="2,2"/>
+            <text x="50" y="15" fill="#3498db" font-size="14" font-family="Arial, sans-serif" font-style="italic">Add option</text>
+        </g>
+        </g>
+
+        <!-- Submit Button -->
+        <g class="clickable">
+        <rect x="100" y="250" width="140" height="50" 
+            class="submit-button"
+            fill="url(#lightGreenGradient)" 
+            rx="25" ry="25"
+            style="animation: pulse 2s ease-in-out infinite; transition: all 0.2s ease;"
+            filter="url(#softShadow)"/>
+        <text x="135" y="280" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">Submit</text>
+        </g>
+        
+        <!-- Success State (hidden by default) -->
+        <g id="successState" opacity="0" transform="translate(0 -20)">
+        <circle cx="170" cy="280" r="30" fill="#2ecc71"/>
+        <path d="M160 275 L175 290 L190 260" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+                style="stroke-dasharray: 50; stroke-dashoffset: 50;"/>
+        <text x="220" y="285" fill="#27ae60" font-size="16" font-weight="bold" font-family="Arial, sans-serif">Submitted successfully!</text>
+        </g>
+    </g>
+
+    <!-- New Cartoon Character - Helpful Mascot -->
+    <g class="character clickable" transform="translate(650 100)" style="animation: bounce 3s ease-in-out infinite;">
+        <!-- Body -->
+        <ellipse cx="0" cy="60" rx="50" ry="70" fill="#FFD166"/>
+        
+        <!-- Head -->
+        <circle cx="0" cy="-30" r="60" fill="#FFD166"/>
+        
+        <!-- Eyes -->
+        <g transform="translate(-20 -40)" class="blink">
+        <use href="#eye" x="15" y="0"/>
+        <use href="#eye" x="35" y="0"/>
+        </g>
+        
+        <!-- Smile -->
+        <use href="#smile" x="0" y="-20"/>
+        
+        <!-- Blush -->
+        <circle cx="-25" cy="-25" r="8" fill="#FF6B6B" opacity="0.6"/>
+        <circle cx="25" cy="-25" r="8" fill="#FF6B6B" opacity="0.6"/>
+        
+        <!-- Arms -->
+        <path d="M-50 30 Q-80 0 -50 -10" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+        <path d="M50 30 Q80 0 50 -10" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+        
+        <!-- Thought Bubble -->
+        <g transform="translate(-150 -100)">
+        <path d="M120,20 Q140,0 160,20 Q180,40 160,60 Q140,80 120,60 Q100,40 120,20 Z" fill="white" filter="url(#softShadow)"/>
+        <path d="M160,60 Q170,70 150,80" fill="none" stroke="white" stroke-width="2"/>
+        <text x="140" y="45" text-anchor="middle" fill="#333" font-size="14" font-family="Arial, sans-serif">Need help?</text>
+        </g>
+        
+        <!-- Heart (appears on hover) -->
+        <path id="heart" d="M0,20 Q-15,0 -30,10 Q-40,20 -20,40 Q0,60 20,40 Q40,20 30,10 Q15,0 0,20 Z" 
+            fill="#FF6B6B" opacity="0" transform="translate(0 -80)"/>
+    </g>
+
+    <!-- Character Interaction Styles -->
+    <style>
+        .character:hover #heart {
+        opacity: 1;
+        transform: translateY(-90px) scale(1.2);
+        transition: all 0.3s ease;
+        }
+        .character:hover .thought-bubble {
+        opacity: 0;
+        }
+    </style>
+
+    <!-- Decorative Elements -->
+    <circle cx="620" cy="300" r="20" fill="rgba(46,204,113,0.1)" style="animation: float 5s ease-in-out infinite;"/>
+    <circle cx="650" cy="150" r="15" fill="rgba(74,144,226,0.1)" style="animation: float 6s ease-in-out infinite 0.5s;"/>
+
+    <!-- JavaScript for interactivity -->
+    <script type="application/ecmascript"><![CDATA[
+        // This would need to be implemented in the HTML embedding this SVG
+        // Sample pseudo-code for the interactions:
+        /*
+        document.addEventListener('DOMContentLoaded', function() {
+        // Character interaction
+        const character = document.querySelector('.character');
+        const heart = document.getElementById('heart');
+        
+        character.addEventListener('click', function() {
+            // Show help message
+            alert("Hello! I'm here to help you with your survey!");
+        });
+        
+        // Radio button selection
+        const options = document.querySelectorAll('.radio-option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+            options.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected'));
+            });
+        });
+        
+        // Submit button
+        const submitBtn = document.querySelector('.submit-button');
+        const successState = document.getElementById('successState');
+        
+        submitBtn.addEventListener('click', function() {
+            // Animate success state
+            successState.style.opacity = 1;
+            successState.style.transform = 'translateY(0)';
+            
+            // Animate checkmark
+            const checkmark = successState.querySelector('path');
+            checkmark.style.animation = 'checkmark 0.5s ease-out forwards';
+            
+            // Hide form elements
+            document.querySelectorAll('rect, text, .radio-option').forEach(el => {
+            if (!el.classList.contains('submit-button') && el.id !== 'successState') {
+                el.style.opacity = 0;
+            }
+            });
+            
+            // Make character celebrate
+            character.style.animation = 'bounce 0.5s ease-in-out 3';
+        });
+        });
+        */
+    ]]></script>
+    </svg>

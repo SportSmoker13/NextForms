@@ -197,7 +197,6 @@ export default function FormBuilder({ formData }) {
         method,
         headers: {
           'Content-Type': 'application/json',
-          // Add any authentication headers if required
           // 'Authorization': `Bearer ${yourAuthToken}`
         },
         body: JSON.stringify(transformedData),
