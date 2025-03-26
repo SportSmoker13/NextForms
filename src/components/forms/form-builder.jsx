@@ -37,6 +37,7 @@ import {
   TooltipTrigger,
 } from '../ui/tooltip';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Separator } from '../ui/separator';
 
 // ==========================================
 // Enhanced Validation Schemas
@@ -552,15 +553,15 @@ export default function FormBuilder({ formData }) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
+        className="container max-w-4xl py-4 space-y-4"
       >
         {/* Form Details Card */}
-        <Card className="py-6">
+        <Card className="w-full py-4 m-0 mb-4">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              Form Configuration
+            <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+              <span className="flex-grow">Form Configuration</span>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger className="self-end">
                   <Info className="h-4 w-4 text-gray-500" />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -575,6 +576,7 @@ export default function FormBuilder({ formData }) {
               <Input
                 {...form.register('title')}
                 placeholder="Enter form title"
+                className="w-full"
               />
               {form.formState.errors.title && (
                 <p className="text-red-500 text-sm">
@@ -589,6 +591,7 @@ export default function FormBuilder({ formData }) {
                 {...form.register('description')}
                 placeholder="Form description"
                 rows={3}
+                className="w-full"
               />
               {form.formState.errors.description && (
                 <p className="text-red-500 text-sm">
@@ -598,13 +601,13 @@ export default function FormBuilder({ formData }) {
             </div>
           </CardContent>
         </Card>
-
+        <Separator />
         {/* Questions Section */}
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">Questions</h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h2 className="text-xl font-semibold flex-grow">Questions</h2>
             <Button
-              className="cursor-pointer"
+              className="w-full sm:w-auto"
               type="button"
               onClick={addQuestion}
             >
@@ -621,9 +624,10 @@ export default function FormBuilder({ formData }) {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
+                className="mb-4"
               >
                 <Card
-                  className={`${draggedItem === index ? 'opacity-50' : ''} ${draggingOver === index ? 'border-2 border-blue-400' : ''}`}
+                  className={`w-full m-0 ${draggedItem === index ? 'opacity-50' : ''} ${draggingOver === index ? 'border-2 border-blue-400' : ''}`}
                   draggable
                   onDragStart={(e) => handleDragStart(e, index)}
                   onDragEnd={handleDragEnd}
@@ -634,9 +638,9 @@ export default function FormBuilder({ formData }) {
                 >
                   <CardContent className="p-6">
                     {/* Question Header */}
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                       <div
-                        className="flex items-center cursor-pointer"
+                        className="flex items-center cursor-pointer flex-grow"
                         onClick={() => toggleQuestionExpand(index)}
                       >
                         <div
@@ -645,20 +649,16 @@ export default function FormBuilder({ formData }) {
                         >
                           <GripVertical className="h-5 w-5 text-gray-400" />
                         </div>
-                        <h3 className="font-medium">
+                        <h3 className="font-medium truncate">
                           Question {index + 1}: {field.label || 'Unnamed'}
                         </h3>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2 justify-end">
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className={
-                            index === 0
-                              ? 'cursor-not-allowed'
-                              : 'cursor-pointer'
-                          }
+                          className={`${index === 0 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                           onClick={() => moveQuestion(index, 'up')}
                           disabled={index === 0}
                         >
@@ -666,11 +666,7 @@ export default function FormBuilder({ formData }) {
                         </Button>
                         <Button
                           type="button"
-                          className={
-                            index === fields.length - 1
-                              ? 'cursor-not-allowed'
-                              : 'cursor-pointer'
-                          }
+                          className={`${index === fields.length - 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                           variant="ghost"
                           size="icon"
                           onClick={() => moveQuestion(index, 'down')}
@@ -717,6 +713,7 @@ export default function FormBuilder({ formData }) {
                             <Input
                               {...form.register(`questions.${index}.label`)}
                               placeholder="Enter your question"
+                              className="w-full"
                             />
                             {form.formState.errors.questions?.[index]
                               ?.label && (
@@ -729,7 +726,7 @@ export default function FormBuilder({ formData }) {
                             )}
                           </div>
 
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Question Type Selection */}
                             <QuestionTypeSelect
                               index={index}
@@ -737,7 +734,7 @@ export default function FormBuilder({ formData }) {
                             />
 
                             {/* Required Toggle */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 justify-start sm:justify-end">
                               <Switch
                                 checked={watchedQuestions[index].required}
                                 onCheckedChange={(checked) =>
@@ -762,10 +759,10 @@ export default function FormBuilder({ formData }) {
                                 `questions.${index}.placeholder`
                               )}
                               placeholder="Enter placeholder text"
+                              className="w-full"
                             />
                           </div>
 
-                          {/* Options for multi-choice question types */}
                           {['DROPDOWN', 'CHECKBOX', 'RADIO'].includes(
                             watchedQuestions[index].type
                           ) && (
@@ -803,9 +800,9 @@ export default function FormBuilder({ formData }) {
         </div>
 
         {/* Form Actions */}
-        <div className="flex justify-end gap-4">
+        <div className="flex flex-col sm:flex-row justify-end gap-4">
           <Button
-            className="cursor-pointer"
+            className="w-full sm:w-auto"
             type="button"
             variant="outline"
             onClick={() => router.push('/forms')}
@@ -813,7 +810,7 @@ export default function FormBuilder({ formData }) {
             Cancel
           </Button>
           <Button
-            className={isSubmitting ? 'cursor-not-allowed' : 'cursor-pointer'}
+            className={`w-full sm:w-auto ${isSubmitting ? 'cursor-not-allowed' : 'cursor-pointer'}`}
             type="submit"
             disabled={isSubmitting}
           >

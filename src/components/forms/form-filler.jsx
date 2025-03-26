@@ -657,28 +657,28 @@ export default function FormFiller({ form, previewMode, className }) {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-black dark:text-gray-100">
       {/* Enhanced Header with Animation */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="px-4 py-6 bg-white shadow-sm border-b border-gray-100"
+        className="px-4 py-6 bg-gray-50 dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
       >
-        <div className="max-w-4xl mx-auto">
-          <h1 className="flex items-center text-3xl font-extrabold text-gray-800 tracking-tight">
-            {form.title}
+        <div className="max-w-4xl mx-auto container">
+          <h1 className="flex flex-col sm:flex-row items-start sm:items-center text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+            <span className="mr-3">{form.title}</span>
             {previewMode && (
               <Badge
                 variant="outline"
-                className="ml-3 text-sm font-normal text-yellow-600 border-yellow-600"
+                className="mt-2 sm:mt-0 text-sm font-normal text-yellow-600 border-yellow-600 dark:text-yellow-400 dark:border-yellow-400"
               >
                 Preview Mode
               </Badge>
             )}
           </h1>
           {form.description && (
-            <p className="text-lg text-gray-500 mt-3 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 mt-3 leading-relaxed">
               {form.description}
             </p>
           )}
@@ -686,31 +686,31 @@ export default function FormFiller({ form, previewMode, className }) {
           {/* Enhanced Progress Bar */}
           <div className="space-y-3 mt-6">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-600">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Form Completion
               </span>
-              <span className="text-sm font-bold text-primary">
+              <span className="text-sm font-bold text-blue-700 dark:text-blue-400">
                 {formProgress}%
               </span>
             </div>
             <Progress
               value={formProgress}
-              className="h-2.5 bg-gray-200 rounded-full overflow-hidden"
+              className="h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
             >
-              <Progress.Indicator className="bg-primary transition-all duration-500 ease-in-out" />
+              <Progress.Indicator className="bg-blue-700 dark:bg-blue-500 transition-all duration-500 ease-in-out" />
             </Progress>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {remainingQuestions === null ? (
-                <span className="font-medium text-primary">
+                <span className="font-medium text-blue-700 dark:text-blue-400">
                   Please proceed to fill the form!
                 </span>
               ) : remainingQuestions === 0 ? (
-                <span className="text-green-600 font-semibold">
+                <span className="text-green-600 dark:text-green-400 font-semibold">
                   ✨ All questions completed! Ready to submit. ✨
                 </span>
               ) : (
                 <>
-                  <span className="font-medium text-primary">
+                  <span className="font-medium text-blue-700 dark:text-blue-400">
                     {remainingQuestions}
                   </span>{' '}
                   {remainingQuestions === 1 ? 'question' : 'questions'}{' '}
@@ -723,19 +723,19 @@ export default function FormFiller({ form, previewMode, className }) {
       </motion.div>
 
       {/* Form Content with Enhanced Styling */}
-      <div className="flex flex-grow overflow-auto py-8 px-4">
+      <div className="flex flex-col w-full flex-grow overflow-auto py-8 px-4">
         <Card
           className={cn(
-            'flex-grow max-w-4xl mx-auto rounded-xl shadow-lg transition-all duration-300 ease-in-out py-4',
+            'flex-grow max-w-4xl w-full mx-auto rounded-xl shadow-lg transition-all duration-300 ease-in-out py-4',
             previewMode
-              ? 'border-yellow-100 bg-yellow-50/50'
-              : 'border-gray-100 bg-white'
+              ? 'border-yellow-100 dark:border-yellow-900 bg-yellow-50 dark:bg-yellow-950/30'
+              : 'border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800'
           )}
         >
           <Form {...formMethods}>
             <form
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              className="flex flex-col justify-between h-full space-y-1"
+              className="flex flex-col grow justify-between h-full space-y-1"
             >
               <div>
                 <CardContent className="space-y-6 pt-2">
@@ -759,13 +759,13 @@ export default function FormFiller({ form, previewMode, className }) {
                             render={({ field }) => (
                               <FormItem className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                  <FormLabel className="flex items-center text-base">
-                                    <span className="mr-2 text-muted-foreground">
+                                  <FormLabel className="flex items-center text-base text-black dark:text-gray-100">
+                                    <span className="mr-2 text-gray-600 dark:text-gray-400">
                                       {index + 1}.{' '}
                                     </span>
                                     {question.label}
                                     {question.required && (
-                                      <span className="text-destructive ml-1">
+                                      <span className="text-red-600 dark:text-red-400 ml-1">
                                         *
                                       </span>
                                     )}
@@ -773,7 +773,7 @@ export default function FormFiller({ form, previewMode, className }) {
                                       renderTooltip(question.description)}
                                   </FormLabel>
                                   {!question.required && (
-                                    <span className="text-xs text-muted-foreground">
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">
                                       Optional
                                     </span>
                                   )}
@@ -783,11 +783,11 @@ export default function FormFiller({ form, previewMode, className }) {
 
                                 {question.placeholder &&
                                   question.type !== 'TEXT' && (
-                                    <FormDescription className="text-sm">
+                                    <FormDescription className="text-sm text-gray-600 dark:text-gray-400">
                                       {question.placeholder}
                                     </FormDescription>
                                   )}
-                                <FormMessage className="text-sm" />
+                                <FormMessage className="text-sm text-red-600 dark:text-red-400" />
                               </FormItem>
                             )}
                           />
@@ -799,13 +799,13 @@ export default function FormFiller({ form, previewMode, className }) {
                   <ValidationSummary />
                 </CardContent>
               </div>
-              <CardFooter className="flex justify-between pt-2 border-t">
+              <CardFooter className="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
                 <Button
                   type="button"
                   variant="ghost"
                   onClick={() => router.back()}
                   disabled={isSubmitting || previewMode}
-                  className="gap-1"
+                  className="gap-1 text-black dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <ChevronLeftIcon className="h-4 w-4" />
                   Back
@@ -813,7 +813,7 @@ export default function FormFiller({ form, previewMode, className }) {
                 <Button
                   type="submit"
                   disabled={isSubmitting || previewMode}
-                  className="min-w-[150px] gap-1"
+                  className="min-w-[150px] gap-1 bg-blue-700 dark:bg-blue-600 text-white hover:bg-blue-800 dark:hover:bg-blue-700"
                 >
                   {isSubmitting ? (
                     <>
@@ -836,7 +836,7 @@ export default function FormFiller({ form, previewMode, className }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center text-yellow-800 text-sm"
+            className="max-w-4xl mx-auto mt-4 p-4 bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-800 rounded-lg text-center text-yellow-800 dark:text-yellow-400 text-sm"
           >
             You are in preview mode. Form submission is disabled.
           </motion.div>
@@ -848,7 +848,7 @@ export default function FormFiller({ form, previewMode, className }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="py-4 text-center text-sm text-gray-500 bg-white border-t"
+        className="py-4 text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"
       >
         © {new Date().getFullYear()} Form Builder. All rights reserved.
       </motion.footer>

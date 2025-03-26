@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import FormBuilder from '@/components/forms/form-builder';
+import { Card } from '@/components/ui/card';
 
 export const metadata = {
   title: 'Create Form | Form Builder',
@@ -17,9 +18,11 @@ export default async function CreateFormPage() {
   }
 
   return (
-    <div className="container py-4 px-4">
-      <h1 className="text-3xl font-bold mb-4 mx-4">Create New Form</h1>
-      <FormBuilder />
-    </div>
+    <Card className="m-0 w-full rounded-none">
+      <div className="container p-4">
+        <h1 className="text-3xl font-bold">Create New Form</h1>
+        <FormBuilder />
+      </div>
+    </Card>
   );
 }

@@ -51,7 +51,7 @@ export default async function FormsPage({ searchParams }) {
   ]);
 
   return (
-    <div className="container py-4 px-4">
+    <div className="container">
       <FormList
         initialForms={{
           data: forms,
